@@ -134,9 +134,9 @@ class GameEnv(object):
             action, actions_confidence = self.players[1].act(self.game_infoset)
             # 计算胜率
             win_rate = actions_confidence
-            # win_rate = max(actions_confidence, -1)
-            # win_rate = min(win_rate, 1)
-            # win_rate = str(round(float((win_rate + 1) / 2), 4))
+            win_rate = max(actions_confidence, -1)
+            win_rate = min(win_rate, 1)
+            win_rate = str(round(float((win_rate + 1) / 2), 4))
 
         if len(action) > 0:
             self.last_pid = self.acting_player_position

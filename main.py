@@ -92,7 +92,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         # exit()
 
     def init_display(self):
-        self.WinRate.setText("评分")
+        self.WinRate.setText("胜率")
         self.InitCard.setText("开始")
         self.UserHandCards.setText("手牌")
         self.LPlayedCard.setText("上家出牌区域")
@@ -222,7 +222,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
                     [EnvCard2RealCard[c] for c in self.env.info_sets[self.user_position].player_hand_cards]))[::-1])
 
                 self.PredictedCard.setText(action_message["action"] if action_message["action"] else "不出")
-                self.WinRate.setText("评分：" + action_message["win_rate"])
+                self.WinRate.setText("胜率：" + action_message["win_rate"])
                 print("\n手牌：", str(''.join(
                     [EnvCard2RealCard[c] for c in self.env.info_sets[self.user_position].player_hand_cards])))
                 print("出牌：", action_message["action"] if action_message["action"] else "不出", "， 胜率：",
