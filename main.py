@@ -83,9 +83,9 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         self.shouldExit = 0  # 通知上一轮记牌结束
         self.canRecord = threading.Lock()  # 开始记牌
         self.card_play_model_path_dict = {
-            'landlord': "D:\workspace\py\Douzero_Cloud_Client\models/landlord.ckpt",
-            'landlord_up': "D:\workspace\py\Douzero_Cloud_Client\models/landlord_up.ckpt",
-            'landlord_down': "D:\workspace\py\Douzero_Cloud_Client\models/landlord_down.ckpt"
+            'landlord': r"C:\Users\zdwxx\Documents\Tencent Files\1182338055\FileRecv\landlord_weights_34831802500.ckpt",
+            'landlord_up': r"C:\Users\zdwxx\Documents\Tencent Files\1182338055\FileRecv\landlord_up_weights_34831802500.ckpt",
+            'landlord_down': r"C:\Users\zdwxx\Documents\Tencent Files\1182338055\FileRecv\landlord_down_weights_34831802500.ckpt"
         }
         # cards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
         # print(cards)
