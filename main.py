@@ -158,7 +158,10 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         #     self.ThreeLandlordCards.setText("底牌：" + self.three_landlord_cards_real)
         #     self.three_landlord_cards_env = [RealCard2EnvCard[c] for c in list(self.three_landlord_cards_real)]
         # 识别玩家的角色
-        self.user_position_code = self.find_landlord()
+        try:
+            self.user_position_code
+        except NameError:
+            self.user_position_code = self.find_landlord()
         if self.user_position_code is None:
             items = ("地主上家", "地主", "地主下家")
             item, okPressed = QInputDialog.getItem(self, "选择角色", "未识别到地主，请手动选择角色:", items, 0, False)
@@ -523,6 +526,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         # self.sleep(4000)
         self.user_hand_cards_real = cards_str
         self.three_landlord_cards_real = llcards
+        self.user_position_code = user_position_code
         self.init_cards()
 
 
