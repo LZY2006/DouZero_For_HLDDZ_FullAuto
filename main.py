@@ -5,14 +5,14 @@
 
 # import GameHelper as gh
 # from GameHelper import GameHelper
-import os
-import sys
-import time
+# import os
+# import sys
+# import time
 import threading
-import pyautogui
-import win32gui
-from PIL import Image
-import multiprocessing as mp
+# import pyautogui
+# import win32gui
+# from PIL import Image
+# import multiprocessing as mp
 
 # from PyQt5 import QtGui, QtWidgets, QtCore
 # from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsItem, QGraphicsPixmapItem, QInputDialog, QMessageBox
@@ -158,13 +158,6 @@ class MyPyQT_Form():
                     [EnvCard2RealCard[c] for c in self.env.info_sets[self.user_position].player_hand_cards])))
                 print("出牌：", action_message["action"] if action_message["action"] else "不出", "， 胜率：",
                       action_message["win_rate"])
-                if action_message["action"] == "":
-                    # helper.ClickOnImage("pass_btn", region=self.PassBtnPos)
-                    print("AI: pass")
-                else:
-                    # helper.SelectCards(action_message["action"]
-                    print("AI:", action_message["action"])
-                    tryCount = 20
                 self.detect_start_btn()
                 self.play_order = 1
             elif self.play_order == 1:
@@ -214,15 +207,13 @@ class MyPyQT_Form():
 
     def find_landlord(self):
         while True:
-            x = input("谁是地主？[0]上家 [1]自己 [2]下家 [exit]退出:")
+            x = input("谁是地主？[0]上家 [1]自己 [2]下家:")
             if x == "0":
                 return 0
             elif x == "1":
                 return 1
             elif x == "2":
                 return 2
-            elif x == "exit":
-                exit(0)
             else:
                 continue
 
@@ -346,6 +337,8 @@ if __name__ == '__main__':
             my_pyqt_form.beforeStart()
         elif x == "1":
             my_pyqt_form.init_cards()
+        elif x == "exit":
+            exit(0)
         else:
             print("输入错误")
             continue
