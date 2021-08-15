@@ -2,8 +2,8 @@
 # Created by: Raf
 # Modify by: Vincentzyx
 
-import GameHelper as gh
-from GameHelper import GameHelper
+# import GameHelper as gh
+# from GameHelper import GameHelper
 import os
 import sys
 import time
@@ -16,7 +16,7 @@ import multiprocessing as mp
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsItem, QGraphicsPixmapItem, QInputDialog, QMessageBox
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import QTime, QEventLoop
+from PyQt5.QtCore import QTime, QEventLoop, pyqtRemoveInputHook
 from MainWindow import Ui_Form
 
 from douzero.env.game import GameEnv
@@ -41,8 +41,6 @@ AllEnvCard = [3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7,
 AllCards = ['rD', 'bX', 'b2', 'r2', 'bA', 'rA', 'bK', 'rK', 'bQ', 'rQ', 'bJ', 'rJ', 'bT', 'rT',
             'b9', 'r9', 'b8', 'r8', 'b7', 'r7', 'b6', 'r6', 'b5', 'r5', 'b4', 'r4', 'b3', 'r3']
 
-helper = GameHelper()
-helper.ScreenZoomRate = 1.25  # 请修改屏幕缩放比
 
 class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
     def __init__(self):
@@ -59,26 +57,26 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         self.counter = QTime()
 
         # 参数
-        self.MyConfidence = 0.95  # 我的牌的置信度
-        self.OtherConfidence = 0.9  # 别人的牌的置信度
-        self.WhiteConfidence = 0.95  # 检测白块的置信度
-        self.LandlordFlagConfidence = 0.9  # # 检测地主标志的置信度
-        self.ThreeLandlordCardsConfidence = 0.9  # 检测地主底牌的置信度
-        self.PassConfidence = 0.85
-        self.WaitTime = 1  # 等待状态稳定延时
-        self.MyFilter = 40  # 我的牌检测结果过滤参数
-        self.OtherFilter = 25  # 别人的牌检测结果过滤参数
-        self.SleepTime = 0.1  # 循环中睡眠时间
+        # self.MyConfidence = 0.95  # 我的牌的置信度
+        # self.OtherConfidence = 0.9  # 别人的牌的置信度
+        # self.WhiteConfidence = 0.95  # 检测白块的置信度
+        # self.LandlordFlagConfidence = 0.9  # # 检测地主标志的置信度
+        # self.ThreeLandlordCardsConfidence = 0.9  # 检测地主底牌的置信度
+        # self.PassConfidence = 0.85
+        # self.WaitTime = 1  # 等待状态稳定延时
+        # self.MyFilter = 40  # 我的牌检测结果过滤参数
+        # self.OtherFilter = 25  # 别人的牌检测结果过滤参数
+        # self.SleepTime = 0.1  # 循环中睡眠时间
         self.RunGame = False
         self.AutoPlay = False
         # 坐标
-        self.MyHandCardsPos = (250, 764, 1141, 70)  # 我的截图区域
-        self.LPlayedCardsPos = (463, 355, 380, 250)  # 左边截图区域
-        self.RPlayedCardsPos = (946, 355, 380, 250)  # 右边截图区域
-        self.LandlordFlagPos = [(1281, 276, 110, 140), (267, 695, 110, 140), (424, 237, 110, 140)]  # 地主标志截图区域(右-我-左)
-        self.ThreeLandlordCardsPos = (763, 37, 287, 136)  # 地主底牌截图区域，resize成349x168
-        self.PassBtnPos = (686, 659, 419, 100)
-        self.GeneralBtnPos = (616, 631, 576, 117)
+        # self.MyHandCardsPos = (250, 764, 1141, 70)  # 我的截图区域
+        # self.LPlayedCardsPos = (463, 355, 380, 250)  # 左边截图区域
+        # self.RPlayedCardsPos = (946, 355, 380, 250)  # 右边截图区域
+        # self.LandlordFlagPos = [(1281, 276, 110, 140), (267, 695, 110, 140), (424, 237, 110, 140)]  # 地主标志截图区域(右-我-左)
+        # self.ThreeLandlordCardsPos = (763, 37, 287, 136)  # 地主底牌截图区域，resize成349x168
+        # self.PassBtnPos = (686, 659, 419, 100)
+        # self.GeneralBtnPos = (616, 631, 576, 117)
         # 信号量
         self.shouldExit = 0  # 通知上一轮记牌结束
         self.canRecord = threading.Lock()  # 开始记牌
@@ -109,10 +107,10 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
 
     def init_cards(self):
         self.RunGame = True
-        GameHelper.Interrupt = False
+        # GameHelper.Interrupt = False
         self.init_display()
         # 玩家手牌
-        self.user_hand_cards_real = ""
+        # self.user_hand_cards_real = ""
         self.user_hand_cards_env = []
         # 其他玩家出牌
         self.other_played_cards_real = ""
@@ -120,7 +118,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         # 其他玩家手牌（整副牌减去玩家手牌，后续再减掉历史出牌）
         self.other_hand_cards = []
         # 三张底牌
-        self.three_landlord_cards_real = ""
+        # self.three_landlord_cards_real = ""
         self.three_landlord_cards_env = []
         # 玩家角色代码：0-地主上家, 1-地主, 2-地主下家
         self.user_position_code = None
@@ -133,25 +131,34 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         self.env = None
 
         # 识别玩家手牌
-        self.user_hand_cards_real = self.find_my_cards(self.MyHandCardsPos)
+        # self.user_hand_cards_real = self.find_my_cards()
+        try:
+            self.user_hand_cards_real
+        except NameError:
+            self.user_hand_cards_real = self.find_my_cards()
+
         self.UserHandCards.setText(self.user_hand_cards_real)
         self.user_hand_cards_env = [RealCard2EnvCard[c] for c in list(self.user_hand_cards_real)]
         # 识别三张底牌
-        self.three_landlord_cards_real = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
+        try:
+            self.three_landlord_cards_real
+        except NameError:
+            self.three_landlord_cards_real = self.find_three_landlord_cards()
+
         self.ThreeLandlordCards.setText("底牌：" + self.three_landlord_cards_real)
         self.three_landlord_cards_env = [RealCard2EnvCard[c] for c in list(self.three_landlord_cards_real)]
-        for testCount in range(1, 5):
-            if len(self.three_landlord_cards_env) > 3:
-                self.ThreeLandlordCardsConfidence += 0.05
-            elif len(self.three_landlord_cards_env) < 3:
-                self.ThreeLandlordCardsConfidence -= 0.05
-            else:
-                break
-            self.three_landlord_cards_real = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
-            self.ThreeLandlordCards.setText("底牌：" + self.three_landlord_cards_real)
-            self.three_landlord_cards_env = [RealCard2EnvCard[c] for c in list(self.three_landlord_cards_real)]
+        # for testCount in range(1, 5):
+        #     if len(self.three_landlord_cards_env) > 3:
+        #         self.ThreeLandlordCardsConfidence += 0.05
+        #     elif len(self.three_landlord_cards_env) < 3:
+        #         self.ThreeLandlordCardsConfidence -= 0.05
+        #     else:
+        #         break
+        #     self.three_landlord_cards_real = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
+        #     self.ThreeLandlordCards.setText("底牌：" + self.three_landlord_cards_real)
+        #     self.three_landlord_cards_env = [RealCard2EnvCard[c] for c in list(self.three_landlord_cards_real)]
         # 识别玩家的角色
-        self.user_position_code = self.find_landlord(self.LandlordFlagPos)
+        self.user_position_code = self.find_landlord()
         if self.user_position_code is None:
             items = ("地主上家", "地主", "地主下家")
             item, okPressed = QInputDialog.getItem(self, "选择角色", "未识别到地主，请手动选择角色:", items, 0, False)
@@ -228,43 +235,45 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
                 print("出牌：", action_message["action"] if action_message["action"] else "不出", "， 胜率：",
                       action_message["win_rate"])
                 if action_message["action"] == "":
-                    helper.ClickOnImage("pass_btn", region=self.PassBtnPos)
+                    # helper.ClickOnImage("pass_btn", region=self.PassBtnPos)
+                    print("AI: pass")
                 else:
-                    helper.SelectCards(action_message["action"])
+                    # helper.SelectCards(action_message["action"]
+                    print("AI:", action_message["action"])
                     tryCount = 20
-                    result = helper.LocateOnScreen("play_card", region=self.PassBtnPos, confidence=0.85)
-                    while result is None and tryCount > 0:
-                        if not self.RunGame:
-                            break
-                        print("等待出牌按钮")
-                        self.detect_start_btn()
-                        tryCount -= 1
-                        result = helper.LocateOnScreen("play_card", region=self.PassBtnPos, confidence=0.85)
-                        self.sleep(100)
-                    helper.ClickOnImage("play_card", region=self.PassBtnPos, confidence=0.85)
-                self.sleep(2200)
+                    # result = helper.LocateOnScreen("play_card", region=self.PassBtnPos, confidence=0.85)
+                    # while result is None and tryCount > 0:
+                    #     if not self.RunGame:
+                    #         break
+                    #     print("等待出牌按钮")
+                    #     self.detect_start_btn()
+                    #     tryCount -= 1
+                    #     result = helper.LocateOnScreen("play_card", region=self.PassBtnPos, confidence=0.85)
+                    #     self.sleep(100)
+                    #helper.ClickOnImage("play_card", region=self.PassBtnPos, confidence=0.85)
+                # self.sleep(2200)
                 self.detect_start_btn()
                 self.play_order = 1
             elif self.play_order == 1:
                 self.RPlayedCard.setText("...")
-                pass_flag = helper.LocateOnScreen('pass',
-                                                       region=self.RPlayedCardsPos,
-                                                       confidence=self.PassConfidence)
-                self.detect_start_btn()
-                while self.RunGame and self.have_white(self.RPlayedCardsPos) == 0 and pass_flag is None:
-                    print("等待下家出牌")
-                    self.sleep(100)
-                    pass_flag = helper.LocateOnScreen('pass', region=self.RPlayedCardsPos,
-                                                           confidence=self.PassConfidence)
-                    self.detect_start_btn()
-                self.sleep(200)
+                pass_flag = None
+                while True:
+                    x = input("下家是否pass？[0] -> pass, [1] -> not.")
+                    if x != "0" and x != "1":
+                        continue
+                    elif x=="0":
+                        pass_flag = "pass"
+                    elif x=="1":
+                        break
+
                 # 未找到"不出"
                 if pass_flag is None:
                     # 识别下家出牌
-                    self.RPlayedCard.setText("等待动画")
-                    self.sleep(1200)
+                    # self.RPlayedCard.setText("等待动画")
+                    # self.sleep(1200)
                     self.RPlayedCard.setText("识别中")
-                    self.other_played_cards_real = self.find_other_cards(self.RPlayedCardsPos)
+                    print("输入下家出牌")
+                    self.other_played_cards_real = self.find_other_cards()
                     print("下家出牌", self.other_played_cards_real)
                     self.sleep(500)
                 # 找到"不出"
@@ -276,27 +285,39 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
                 # 更新界面
                 self.RPlayedCard.setText(self.other_played_cards_real if self.other_played_cards_real else "不出")
                 self.play_order = 2
-                self.sleep(500)
+                # self.sleep(500)
             elif self.play_order == 2:
                 self.LPlayedCard.setText("...")
                 self.detect_start_btn()
-                pass_flag = helper.LocateOnScreen('pass', region=self.LPlayedCardsPos,
-                                                       confidence=self.PassConfidence)
-                while self.RunGame and self.have_white(self.LPlayedCardsPos) == 0 and pass_flag is None:
-                    print("等待上家出牌")
-                    self.detect_start_btn()
-                    self.sleep(100)
-                    pass_flag = helper.LocateOnScreen('pass', region=self.LPlayedCardsPos,
-                                                           confidence=self.PassConfidence)
-                self.sleep(200)
+                # pass_flag = helper.LocateOnScreen('pass', region=self.LPlayedCardsPos,
+                #                                        confidence=self.PassConfidence)
+                pass_flag = None
+                while True:
+                    x = input("上家是否pass？[0] -> pass, [1] -> not.")
+                    if x != "0" and x != "1":
+                        continue
+                    elif x=="0":
+                        pass_flag = "pass"
+                        break
+                    elif x=="1":
+                        break
+
+                # while self.RunGame and self.have_white(self.LPlayedCardsPos) == 0 and pass_flag is None:
+                #     print("等待上家出牌")
+                #     self.detect_start_btn()
+                #     self.sleep(100)
+                #     pass_flag = helper.LocateOnScreen('pass', region=self.LPlayedCardsPos,
+                #                                            confidence=self.PassConfidence)
+                # self.sleep(200)
                 # 不出
                 # 未找到"不出"
                 if pass_flag is None:
                     # 识别上家出牌
                     self.LPlayedCard.setText("等待动画")
-                    self.sleep(1200)
+                    # self.sleep(1200)
                     self.LPlayedCard.setText("识别中")
-                    self.other_played_cards_real = self.find_other_cards(self.LPlayedCardsPos)
+                    print("输入上家出牌")
+                    self.other_played_cards_real = self.find_other_cards()
                 # 找到"不出"
                 else:
                     self.other_played_cards_real = ""
@@ -316,75 +337,90 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         #                         QMessageBox.Yes, QMessageBox.Yes)
         self.detect_start_btn()
 
-    def find_landlord(self, landlord_flag_pos):
-        for pos in landlord_flag_pos:
-            result = helper.LocateOnScreen("landlord_words", region=pos,
-                                                confidence=self.LandlordFlagConfidence)
-            if result is not None:
-                return landlord_flag_pos.index(pos)
-        return None
+    def find_landlord(self):
+        # for pos in landlord_flag_pos:
+        #     result = helper.LocateOnScreen("landlord_words", region=pos,
+        #                                         confidence=self.LandlordFlagConfidence)
+        #     if result is not None:
+        #         return landlord_flag_pos.index(pos)
+        # return None
+        while True:
+            x = input("谁是地主？[0]上家 [1]自己 [2]下家")
+            if x == "0":
+                return 0
+            elif x == "1":
+                return 1
+            elif x == "2":
+                return 2
+            else:
+                continue
 
     def detect_start_btn(self):
-        result = helper.LocateOnScreen("change_player_btn", region=(400, 400, 934, 404))
-        if result is not None:
-            self.RunGame = False
-            self.stop()
-        result = helper.LocateOnScreen("yes_btn", region=(680, 661, 435, 225))
-        if result is not None:
-            helper.ClickOnImage("yes_btn", region=(680, 661, 435, 225))
-            self.sleep(1000)
-        result = helper.LocateOnScreen("get_award_btn", region=(680, 661, 435, 225))
-        if result is not None:
-            helper.ClickOnImage("get_award_btn", region=(680, 661, 435, 225))
-            self.sleep(1000)
-        result = helper.LocateOnScreen("yes_btn_sm", region=(669, 583, 468, 100))
-        if result is not None:
-            helper.ClickOnImage("yes_btn_sm", region=(669, 583, 468, 100))
-            self.sleep(200)
+        pass
 
 
-    def find_three_landlord_cards(self, pos):
-        img, _ = helper.Screenshot()
-        img = img.crop((pos[0], pos[1], pos[0] + pos[2], pos[1] + pos[3]))
-        img = img.resize((349, 168))
+    def find_three_landlord_cards(self):
         three_landlord_cards_real = ""
-        for card in AllCards:
-            result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
-                                         confidence=self.ThreeLandlordCardsConfidence)
-            three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
-        if len(three_landlord_cards_real) > 3:
-            three_landlord_cards_real = ""
-            for card in AllCards:
-                result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
-                                             confidence=self.ThreeLandlordCardsConfidence + 0.05)
-                three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
-        if len(three_landlord_cards_real) < 3:
-            three_landlord_cards_real = ""
-            for card in AllCards:
-                result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
-                                             confidence=self.ThreeLandlordCardsConfidence + 0.1)
-                three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
+        while True:
+            x = input("输入3张地主牌:")
+            if len(x) != 3:
+                print("数量不对")
+                continue
+            c = input("确定吗？[y]/n")
+            if c == "y" or c == "Y" or c == "":
+                break
+            else:
+                continue
+        three_landlord_cards_real = x
+        # for card in AllCards:
+        #     result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
+        #                                  confidence=self.ThreeLandlordCardsConfidence)
+        #     three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
+        # if len(three_landlord_cards_real) > 3:
+        #     three_landlord_cards_real = ""
+        #     for card in AllCards:
+        #         result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
+        #                                      confidence=self.ThreeLandlordCardsConfidence + 0.05)
+        #         three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
+        # if len(three_landlord_cards_real) < 3:
+        #     three_landlord_cards_real = ""
+        #     for card in AllCards:
+        #         result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
+        #                                      confidence=self.ThreeLandlordCardsConfidence + 0.1)
+        #         three_landlord_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
         return three_landlord_cards_real
 
-    def find_my_cards(self, pos):
+    def find_my_cards(self):
         user_hand_cards_real = ""
-        img, _ = helper.Screenshot()
-        cards, _ = helper.GetCards(img)
-        for c in cards:
-            user_hand_cards_real += c[0]
+        # img, _ = helper.Screenshot()
+        # cards, _ = helper.GetCards(img)
+        # for c in cards:
+        #     user_hand_cards_real += c[0]
         # for card in AllCards:
         #     result = pyautogui.locateAll(needleImage=helper.Pics['m'+card], haystackImage=img, confidence=self.MyConfidence)
         #     user_hand_cards_real += card[1] * self.cards_filter(list(result), self.MyFilter)
+        while True:
+            x = input("输入所有手牌:")
+            c = input("确定吗？[y]/n")
+            if c == "y" or c == "Y" or c == "":
+                break
+            else:
+                continue
+        user_hand_cards_real = x
         return user_hand_cards_real
 
-    def find_other_cards(self, pos):
-        other_played_cards_real = ""
-        self.sleep(500)
-        img, _ = helper.Screenshot(region=pos)
-        for card in AllCards:
-            result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
-                                         confidence=self.OtherConfidence)
-            other_played_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
+    def find_other_cards(self):
+        while True:
+            other_played_cards_real = input("输入牌:")
+            c = input("确定吗？[y]/n")
+            if c == "" or c == "y" or c == "Y":
+                break
+        # self.sleep(500)
+        # img, _ = helper.Screenshot(region=pos)
+        # for card in AllCards:
+        #     result = pyautogui.locateAll(needleImage=helper.Pics['o' + card], haystackImage=img,
+        #                                  confidence=self.OtherConfidence)
+        #     other_played_cards_real += card[1] * self.cards_filter(list(result), self.OtherFilter)
         return other_played_cards_real
 
     def cards_filter(self, location, distance):  # 牌检测结果滤波
@@ -404,13 +440,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         return count
 
     def have_white(self, pos):  # 是否有白块
-        img, _ = helper.Screenshot()
-        result = pyautogui.locate(needleImage=helper.Pics["white"], haystackImage=img,
-                                  region=pos, confidence=self.WhiteConfidence)
-        if result is None:
-            return 0
-        else:
-            return 1
+        pass
 
     def stop(self):
         try:
@@ -423,100 +453,81 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         except AttributeError as e:
             pass
         if self.AutoPlay:
-            play_btn = helper.LocateOnScreen("change_player_btn", region=(400, 400, 934, 404))
-            while play_btn is None and self.AutoPlay:
-                play_btn = helper.LocateOnScreen("change_player_btn", region=(400, 400, 934, 404))
-                self.sleep(100)
-            if play_btn is not None:
-                helper.LeftClick((play_btn[0], play_btn[1]))
-                self.beforeStart()
+            input("准备开始")
 
     def beforeStart(self):
-        GameHelper.Interrupt = True
-        thresholds = [
-            [75, 60],
-            [85, 70]
-        ]
+        # GameHelper.Interrupt = True
+        # thresholds = [
+        #     [75, 60],
+        #     [85, 70]
+        # ]
         while True:
-            outterBreak = False
-            jiaodizhu_btn = helper.LocateOnScreen("jiaodizhu_btn", region=(765, 663, 116, 50))
-            qiangdizhu_btn = helper.LocateOnScreen("qiangdizhu_btn", region=(783, 663, 116, 50))
-            jiabei_btn = helper.LocateOnScreen("jiabei_btn", region=self.GeneralBtnPos)
+            # outterBreak = False
+            # jiaodizhu_btn = helper.LocateOnScreen("jiaodizhu_btn", region=(765, 663, 116, 50))
+            # qiangdizhu_btn = helper.LocateOnScreen("qiangdizhu_btn", region=(783, 663, 116, 50))
+            # jiabei_btn = helper.LocateOnScreen("jiabei_btn", region=self.GeneralBtnPos)
             self.detect_start_btn()
-            while jiaodizhu_btn is None and qiangdizhu_btn is None and jiabei_btn is None:
+            while False:
                 self.detect_start_btn()
                 print("等待加倍或叫地主")
                 self.sleep(100)
                 jiaodizhu_btn = helper.LocateOnScreen("jiaodizhu_btn", region=(765, 663, 116, 50))
                 qiangdizhu_btn = helper.LocateOnScreen("qiangdizhu_btn", region=(783, 663, 116, 50))
                 jiabei_btn = helper.LocateOnScreen("jiabei_btn", region=self.GeneralBtnPos)
-            if jiabei_btn is None:
-                img, _ = helper.Screenshot()
-                cards, _ = helper.GetCards(img)
-                cards_str = "".join([card[0] for card in cards])
-                win_rate = BidModel.predict(cards_str)
-                print("预计叫地主胜率：", win_rate)
-                self.BidWinrate.setText("叫牌预估胜率：" + str(round(win_rate, 2)) + "%")
-                is_stolen = 0
-                if jiaodizhu_btn is not None:
-                    if win_rate > 55:
-                        helper.ClickOnImage("jiaodizhu_btn", region=(765, 663, 116, 50), confidence=0.9)
-                    else:
-                        helper.ClickOnImage("bujiao_btn", region=self.GeneralBtnPos)
-                elif qiangdizhu_btn is not None:
-                    is_stolen = 1
-                    if win_rate > 60:
-                        helper.ClickOnImage("qiangdizhu_btn", region=(783, 663, 116, 50), confidence=0.9)
-                    else:
-                        helper.ClickOnImage("buqiang_btn", region=self.GeneralBtnPos)
-                else:
-                    pass
+            
+            # img, _ = helper.Screenshot()
+            # cards, _ = helper.GetCards(img)
+            cards_str = self.find_my_cards()
+            win_rate = BidModel.predict(cards_str)
+            print("预计叫地主胜率：", win_rate)
+            self.BidWinrate.setText("叫牌预估胜率：" + str(round(win_rate, 2)) + "%")
+            
+            llcards = self.find_three_landlord_cards()
+            print("地主牌:", llcards)
+            # img, _ = helper.Screenshot()
+            # cards, _ = helper.GetCards(img)
+            # cards_str = "".join([card[0] for card in cards])
+            if len(cards_str) == 20:
+                win_rate = LandlordModel.predict(cards_str)
+                self.PreWinrate.setText("局前预估胜率：" + str(round(win_rate, 2)) + "%")
+                print("预估地主胜率:", win_rate)
             else:
-                llcards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
-                print("地主牌:", llcards)
-                img, _ = helper.Screenshot()
-                cards, _ = helper.GetCards(img)
-                cards_str = "".join([card[0] for card in cards])
-                if len(cards_str) == 20:
-                    win_rate = LandlordModel.predict(cards_str)
-                    self.PreWinrate.setText("局前预估胜率：" + str(round(win_rate, 2)) + "%")
-                    print("预估地主胜率:", win_rate)
-                else:
-                    user_position_code = self.find_landlord(self.LandlordFlagPos)
-                    user_position = "up"
-                    while user_position_code is None:
-                        user_position_code = self.find_landlord(self.LandlordFlagPos)
-                        self.sleep(50)
-                    user_position = ['up', 'landlord', 'down'][user_position_code]
-                    win_rate = FarmerModel.predict(cards_str, llcards, user_position) - 5
-                    print("预估农民胜率:", win_rate)
-                    self.PreWinrate.setText("局前预估胜率：" + str(round(win_rate, 2)) + "%")
-                if win_rate > thresholds[is_stolen][0]:
-                    chaojijiabei_btn = helper.LocateOnScreen("chaojijiabei_btn", region=self.GeneralBtnPos)
-                    if chaojijiabei_btn is not None:
-                        helper.ClickOnImage("chaojijiabei_btn", region=self.GeneralBtnPos)
-                    else:
-                        helper.ClickOnImage("jiabei_btn", region=self.GeneralBtnPos)
-                elif win_rate > thresholds[is_stolen][1]:
-                    helper.ClickOnImage("jiabei_btn", region=self.GeneralBtnPos)
-                else:
-                    helper.ClickOnImage("bujiabei_btn", region=self.GeneralBtnPos)
-                outterBreak = True
-                break
-            if outterBreak:
-                break
+                user_position_code = self.find_landlord()
+                user_position = "up"
+                while user_position_code is None:
+                    user_position_code = self.find_landlord()
+                    self.sleep(50)
+                user_position = ['up', 'landlord', 'down'][user_position_code]
+                win_rate = FarmerModel.predict(cards_str, llcards, user_position) - 5
+                print("预估农民胜率:", win_rate)
+                self.PreWinrate.setText("局前预估胜率：" + str(round(win_rate, 2)) + "%")
+            # if win_rate > thresholds[is_stolen][0]:
+            #     chaojijiabei_btn = helper.LocateOnScreen("chaojijiabei_btn", region=self.GeneralBtnPos)
+            #     if chaojijiabei_btn is not None:
+            #         helper.ClickOnImage("chaojijiabei_btn", region=self.GeneralBtnPos)
+            #     else:
+            #         helper.ClickOnImage("jiabei_btn", region=self.GeneralBtnPos)
+            # elif win_rate > thresholds[is_stolen][1]:
+            #     helper.ClickOnImage("jiabei_btn", region=self.GeneralBtnPos)
+            # else:
+            #     helper.ClickOnImage("bujiabei_btn", region=self.GeneralBtnPos)
+            # outterBreak = True
+            break
 
-        llcards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
-        while len(llcards) != 3:
-            print("等待地主牌", llcards)
-            self.sleep(100)
-            llcards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
+        # llcards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
+        # while len(llcards) != 3:
+        #     print("等待地主牌", llcards)
+        #     self.sleep(100)
+        #     llcards = self.find_three_landlord_cards(self.ThreeLandlordCardsPos)
 
-        self.sleep(4000)
+        # self.sleep(4000)
+        self.user_hand_cards_real = cards_str
+        self.three_landlord_cards_real = llcards
         self.init_cards()
 
 
 if __name__ == '__main__':
+    pyqtRemoveInputHook()
     app = QtWidgets.QApplication(sys.argv)
     app.setStyleSheet("""
     QPushButton{

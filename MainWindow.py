@@ -16,7 +16,7 @@ class Ui_Form(object):
         Form.setObjectName("Form")
         Form.resize(703, 421)
         font = QtGui.QFont()
-        font.setFamily("Arial")
+        font.setFamily("微软雅黑")
         font.setPointSize(9)
         font.setBold(True)
         font.setItalic(False)
